@@ -71,7 +71,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
             onTap: (){
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back_ios_sharp,color: Colors.white,size: 18,)),
+            child: const Icon(Icons.arrow_back_ios_sharp,color: Colors.white,size: 18,)),
         backgroundColor: AppThemeColor.buttonColor,
         actions: [
           GestureDetector(
@@ -109,10 +109,9 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
               child: GridView.builder(
                 itemCount: allProducts.length,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
+                  maxCrossAxisExtent: 210,
                   childAspectRatio: 0.8,
                   mainAxisSpacing: 1,
-
                   crossAxisSpacing: 8,
                 ),
                 itemBuilder: (context, index) {
@@ -139,6 +138,8 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                         children: [
                           addHeight(20),
                           Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
                                decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(7),
@@ -151,81 +152,80 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                                 ],
                               ),
                               child:
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(7),
+                                    child: CachedNetworkImage(
+                                      imageUrl: imagePATH,
+                                      height: height *.20,
+                                      width: width *.45,
+                                      fit: BoxFit.contain,
+                                      errorWidget: (_, __, ___) => Image.asset(
+                                        "assets/images/Image Popular Product 2.png",
+                                        fit: BoxFit.cover,
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                      placeholder: (_, __) =>  Container(
+                                        color: Colors.grey.shade200,
+                                      ),
 
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(7),
-                                child: CachedNetworkImage(
-                                  imageUrl: imagePATH,
-                                  height: height *.20,
-                                  width: width *.45,
-                                  fit: BoxFit.contain,
-                                  errorWidget: (_, __, ___) => Image.asset(
-                                    "assets/images/Image Popular Product 2.png",
-                                    fit: BoxFit.cover,
-                                    height: 50,
-                                    width: 50,
+                                    ),
                                   ),
-                                  placeholder: (_, __) =>  Container(
-                                    color: Colors.grey.shade200,
+                                  const SizedBox(height: 5),
+                                  Text(
+                                      productsData['productname'],
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,color: CupertinoColors.black,fontSize: 14)
                                   ),
+                                  addHeight(2),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "R${productsData['minprice']}" "-R${productsData['maxprice']}",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: "IBM Plex Sans",
+                                          fontWeight: FontWeight.w700,
+                                          color: AppThemeColor.buttonColor,
+                                        ),
+                                      ),
 
-                                ),
+                                      InkWell(
+                                        borderRadius: BorderRadius.circular(50),
+                                        onTap: () {
+                                          log("product id ${productsData['id'].toString()}");
+                                          wishListController.addWishList(productsData['id'].toString(),"",context);
+                                          wishListController.fetchWishlist();
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(6),
+                                          height: 24,
+                                          width: 24,
+                                          decoration: BoxDecoration(
+                                            color: kSecondaryColor.withOpacity(0.1),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/Heart Icon_2.svg",
+                                            colorFilter: const ColorFilter.mode(
+                                                Color(0xFFDBDEE4),
+                                                BlendMode.srcIn),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               )
                             //
                             // Image.asset("assets/images/glap.png",),
                           ),
-                           const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 1),
-                            child: Text(
-                              productsData['productname'],
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,color: CupertinoColors.black,fontSize: 14)
-                            ),
-                          ),
-                           addHeight(2),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 1),
-                                child: Text(
-                                  "R${productsData['minprice']}" "-R${productsData['maxprice']}",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: "IBM Plex Sans",
-                                    fontWeight: FontWeight.w600,
-                                    color: AppThemeColor.buttonColor,
-                                  ),
-                                ),
-                              ),
 
-                              InkWell(
-                                borderRadius: BorderRadius.circular(50),
-                                onTap: () {
-                                  log("product id ${productsData['id'].toString()}");
-                                  wishListController.addWishList(productsData['id'].toString(),"",context);
-                                  wishListController.fetchWishlist();
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  height: 24,
-                                  width: 24,
-                                  decoration: BoxDecoration(
-                                    color: kSecondaryColor.withOpacity(0.1),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: SvgPicture.asset(
-                                    "assets/icons/Heart Icon_2.svg",
-                                    colorFilter: const ColorFilter.mode(
-                                        Color(0xFFDBDEE4),
-                                        BlendMode.srcIn),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                     );

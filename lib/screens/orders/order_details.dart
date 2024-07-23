@@ -33,7 +33,7 @@ class _OrderDetailsOfMartState extends State<OrderDetailsOfMart>
       Scaffold(
         appBar:
         AppBar(
-          title: Text("Order Details"),
+          title: Text("[Order Details"),
         ),
         body:
         SingleChildScrollView(

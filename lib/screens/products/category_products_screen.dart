@@ -121,7 +121,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
               gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 210,
                 childAspectRatio: 0.8,
-                mainAxisSpacing: 0.5,
+                mainAxisSpacing: 0.3,
                 crossAxisSpacing: 3,
               ),
               itemBuilder: (context, index) {
@@ -146,7 +146,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          addHeight(10),
+                          // addHeight(2),
                           Container(
                             margin:  EdgeInsets.symmetric(vertical: 4),
                             padding: const EdgeInsets.all(8),
@@ -246,6 +246,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
                             //
                             // Image.asset("assets/images/glap.png",),
                           ),
+                          addHeight(10)
 
                         ],
                       ),
