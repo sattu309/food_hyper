@@ -19,8 +19,8 @@ class RoundedIconBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Container(
-      height: 40,
-      width: 40,
+      height: 30,
+      width: 30,
       decoration: BoxDecoration(
         color: Colors.grey,
         shape: BoxShape.circle,

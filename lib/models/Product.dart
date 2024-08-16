@@ -44,10 +44,11 @@ List<Product> demoProducts = [
   Product(
     id: 1,
     images: [
-      "assets/images/ps4_console_white_1.png",
-      "assets/images/ps4_console_white_2.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/ps4_console_white_4.png",
+      "assets/images/pro1.jpeg",
+      "assets/images/pro2.jpeg",
+      "assets/images/pro3.jpeg",
+      "assets/images/pro4.jpeg",
+
     ],
     colors: [
       const Color(0xFFF6625E),
@@ -55,7 +56,7 @@ List<Product> demoProducts = [
       const Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Wireless Controller for PS4™",
+    title: "All Natural Italian-Style Chicken Meatballs™",
     price: 64.99,
     description: description,
     rating: 4.8,
@@ -65,7 +66,7 @@ List<Product> demoProducts = [
   Product(
     id: 2,
     images: [
-      "assets/images/Image Popular Product 2.png",
+      "assets/images/pro2.jpeg",
     ],
     colors: [
       const Color(0xFFF6625E),
@@ -73,7 +74,7 @@ List<Product> demoProducts = [
       const Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Nike Sport White - Man Pant",
+    title: "Blue Diamond Almonds Lightly Salted",
     price: 50.5,
     description: description,
     rating: 4.1,
@@ -82,7 +83,7 @@ List<Product> demoProducts = [
   Product(
     id: 3,
     images: [
-      "assets/images/glap.png",
+      "assets/images/pro3.jpeg",
     ],
     colors: [
       const Color(0xFFF6625E),
@@ -90,7 +91,7 @@ List<Product> demoProducts = [
       const Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Gloves XC Omega - Polygon",
+    title: "Field Roast Chao Cheese Creamy Original",
     price: 36.55,
     description: description,
     rating: 4.1,
@@ -100,7 +101,7 @@ List<Product> demoProducts = [
   Product(
     id: 4,
     images: [
-      "assets/images/wireless headset.png",
+      "assets/images/pro4.jpeg",
     ],
     colors: [
       const Color(0xFFF6625E),

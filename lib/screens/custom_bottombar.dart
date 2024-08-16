@@ -11,7 +11,7 @@ import 'cart/cart_screen.dart';
 import 'favorite/favorite_screen.dart';
 import 'package:flutter/material.dart' hide Badge;
 
-import 'home/categories_list.dart';
+import 'category/categories_list.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({
@@ -35,6 +35,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
     super.initState();
     sessionIdController.getAccessToken();
     favController.fetchWishlist();
+    // cartController.fetchCartData();
   }
 
   @override
@@ -50,7 +51,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
               child: Theme(
                   data: ThemeData(
                       splashColor: Colors.transparent,
-                      backgroundColor: Colors.transparent,
+                      // backgroundColor: Colors.transparent,
                       bottomNavigationBarTheme:
                           const BottomNavigationBarThemeData(
                               backgroundColor: Colors.white, elevation: 0)),

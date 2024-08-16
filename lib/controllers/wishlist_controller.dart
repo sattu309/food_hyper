@@ -1,12 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helper/apptheme_color.dart';
+import '../helper/common_button.dart';
 import '../helper/custom_snackbar.dart';
+import '../models/login_token_model.dart';
+import 'cart_controller.dart';
 
 class WishListController extends GetxController{
+
   var wishlist = [].obs;
   List<String> getFavIds = [];
   Future<void> addWishList(String productId, String token, context) async {
@@ -165,6 +171,129 @@ class WishListController extends GetxController{
     }
 
   }
+
+
+  // add to cart mutation
+  Future<void> addToCart( int pId,  int pVId, int cValue,context ) async {
+    final cartController = Get.put(CartController());
+    final MutationOptions options = MutationOptions(
+      document: gql('''
+      mutation AddToCart(\$input: AddToCartInput!) {
+        addToCart(
+        input:\$input ) {
+            cart {
+                subtotal
+                total
+                shippingTotal
+                contents {
+                    itemCount
+                    nodes {
+                        product {
+                            node {
+                                name
+                                sku
+                                databaseId
+                                productId
+                                image{
+                                    sourceUrl
+                                }
+                                ... on VariableProduct {
+                                    databaseId
+                                    name
+                                    price
+                                    type
+                                    regularPrice
+                                    salePrice
+                                }
+                                ... on SimpleProduct {
+                                    databaseId
+                                    name
+                                    price
+                                    type
+                                    regularPrice
+                                    salePrice
+                                }
+                                }
+                                }
+                                key
+                                quantity
+                                subtotal
+                                subtotalTax
+                                total
+                                tax
+                                variation {
+                                node {
+                                databaseId
+                                name
+                                price
+                                regularPrice
+                                salePrice
+                                attributes{
+                                    edges{
+                                        node{
+                                            value
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    '''),
+      variables: {
+        'input': {
+          'productId': pId,
+          'quantity': cValue,
+          'variationId': pVId,
+
+          // 'pVId': pVId,
+        },
+      },
+    );
+
+    final GraphQLClient client = GraphQLProvider.of(context).value;
+
+    final QueryResult result = await client.mutate(options);
+
+    if (result.hasException) {
+      List<String> errorMessages = [];
+
+      if (result.exception!.graphqlErrors.isNotEmpty) {
+        errorMessages =
+            result.exception!.graphqlErrors.map((e) => e.message).toList();
+      }
+
+      if (result.exception!.linkException != null) {
+        errorMessages.add(result.exception!.linkException.toString());
+      }
+      print("ADD TO CART ERROR::::: $errorMessages");
+      // final snackBar = CustomSnackbar.build(
+      //   message: errorMessages.toString(),
+      //   backgroundColor: AppThemeColor.buttonColor,
+      // );
+      //
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      final Map<String, dynamic>? addToCartData = result.data?['addToCart'];
+      log("RESULT ADD TO CART${result}");
+      if (addToCartData != null) {
+        SharedPreferences cartLocalData =
+        await SharedPreferences.getInstance();
+        cartLocalData.setString('cart_data', jsonEncode(addToCartData['cart']));
+        cartController.getCartDataLocally();
+        showAddToCartPopup(context, "Item added to cart!");
+
+        // }
+      } else {
+        print('Add to cart error: Invalid response data');
+      }
+    }
+  }
+
 
   @override
   void onInit() {

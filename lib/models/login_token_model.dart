@@ -1,24 +1,30 @@
 class LoginTokenModel {
-  dynamic? id;
-  dynamic rememberToken;
-  dynamic name;
+  dynamic id;
+  dynamic authToken;
+  dynamic username;
   dynamic email;
+  dynamic firstName;
+  dynamic lastName;
 
-  LoginTokenModel({this.id, this.rememberToken,this.name,this.email});
+  LoginTokenModel({this.id, this.authToken,this.username,this.email,this.firstName,this.lastName});
 
   LoginTokenModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    username = json['username'];
     email = json['email'];
-    rememberToken = json['remember_token'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    authToken = json['authToken'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
+    data['username'] = this.username;
     data['email'] = this.email;
-    data['remember_token'] = this.rememberToken;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['authToken'] = this.authToken;
     return data;
   }
 }
@@ -61,25 +67,25 @@ class LoginTokenModel {
 //
 // class Login {
 //   dynamic id;
-//   dynamic name;
+//   dynamic username;
 //   dynamic email;
-//   dynamic lname;
+//   dynamic lusername;
 //   dynamic mobile;
 //   dynamic rememberToken;
 //
 //   Login(
 //       {this.id,
-//         this.name,
+//         this.username,
 //         this.email,
-//         this.lname,
+//         this.lusername,
 //         this.mobile,
 //         this.rememberToken});
 //
 //   Login.fromJson(Map<String, dynamic> json) {
 //     id = json['id'];
-//     name = json['name'];
+//     username = json['username'];
 //     email = json['email'];
-//     lname = json['lname'];
+//     lusername = json['lusername'];
 //     mobile = json['mobile'];
 //     rememberToken = json['remember_token'];
 //   }
@@ -87,9 +93,9 @@ class LoginTokenModel {
 //   Map<String, dynamic> toJson() {
 //     final Map<String, dynamic> data = new Map<String, dynamic>();
 //     data['id'] = this.id;
-//     data['name'] = this.name;
+//     data['username'] = this.username;
 //     data['email'] = this.email;
-//     data['lname'] = this.lname;
+//     data['lusername'] = this.lusername;
 //     data['mobile'] = this.mobile;
 //     data['remember_token'] = this.rememberToken;
 //     return data;

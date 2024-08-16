@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:shop_app/screens/splash/splash_new_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'controllers/session_controller.dart';
 import 'routes.dart';
 import 'theme.dart';
 
 void main() {
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp( MyApp());
 }
 
@@ -16,27 +17,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      'https://shopdemo.bitlogiq.co.za/graphql/',
-      defaultHeaders: {
-        'Authorization': 'Bearer ${sessionController.sessionId.value}',
-      },
+      'https://wpdemo.bitlogiq.co.za/graphql',
     );
+
+    final AuthLink authLink = AuthLink(
+      getToken: () async => 'Bearer ${sessionController.sessionId.value}',
+
+    );
+
+    final Link link = authLink.concat(httpLink,);
 
     final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
       GraphQLClient(
-        link: httpLink,
+        link: link,
         cache: GraphQLCache(),
+
       ),
     );
-
     return GraphQLProvider(
       client: client,
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'FoodHyper',
-        theme: AppTheme.lightTheme(context),
-        initialRoute: SplashScreen.routeName,
-        routes: routes,
+      child: CacheProvider(
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'FoodHyper',
+          theme: AppTheme.lightTheme(context),
+          initialRoute: FoodSplash.routeName,
+          routes: routes,
+        ),
       ),
     );
   }

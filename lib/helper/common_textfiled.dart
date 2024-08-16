@@ -49,6 +49,7 @@ class CommonTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       onTap: onTap,
       readOnly: readOnly!,
       controller: controller,
@@ -71,18 +72,18 @@ class CommonTextFieldWidget extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+          const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppThemeColor.backgroundcolor),
+            borderSide:  BorderSide(color: Colors.black38),
             borderRadius: BorderRadius.circular(5.0),
           ),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: AppThemeColor.backgroundcolor),
+          enabledBorder:  OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black38),
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
           border: OutlineInputBorder(
               borderSide:
-              BorderSide(color: AppThemeColor.backgroundcolor, width: 3.0),
+              BorderSide(color: Colors.black38, width: 3.0),
               borderRadius: BorderRadius.circular(5.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),
@@ -99,6 +100,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final AutovalidateMode? autovalidateMode;
   final String? hint;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
@@ -128,7 +130,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
     this.obscureText = false,
     this.readOnly = false,
     this.onTap,
-    this.length,
+    this.length, this.autovalidateMode,
   }) : super(key: key);
 
   @override
@@ -144,6 +146,7 @@ class CommonTextFieldWidget1 extends StatelessWidget {
       textInputAction: textInputAction,
       minLines: minLines,
       maxLines: maxLines,
+      autovalidateMode: autovalidateMode,
       inputFormatters: [
         LengthLimitingTextInputFormatter(length),
       ],
@@ -158,15 +161,15 @@ class CommonTextFieldWidget1 extends StatelessWidget {
           const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppThemeColor.backgroundcolor),
+            borderSide:  BorderSide(color: Colors.grey.shade100),
             borderRadius: BorderRadius.circular(5.0),
           ),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: AppThemeColor.backgroundcolor),
+          enabledBorder:  OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade100),
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
           border: OutlineInputBorder(
               borderSide:
-              const BorderSide(color: AppThemeColor.backgroundcolor, width: 3.0),
+               BorderSide(color: Colors.grey.shade100,width: 3.0),
               borderRadius: BorderRadius.circular(5.0)),
           suffixIcon: suffix,
           prefixIcon: prefix),

@@ -99,11 +99,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                     color: AppThemeColor.buttonColor, shape: CircleBorder()),
                 child: Center(
                     child: Text(
-                      "R",
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 24,
-                          color: AppThemeColor.backgroundcolor),
+                      "F",style: TextStyle(color: Colors.white),
                     )),
               ),
             ),
@@ -127,9 +123,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                     Text(
                       title,
                       style: const TextStyle(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w500,
                         color: Color(0xff000000),
-                        fontSize: 16,
+                        fontSize: 13,
                       ),
                     ),
                     //textBold(snapshot.data!.data.notifications[index].title),

@@ -1,91 +1,101 @@
 class CartItem {
-  dynamic id;
-  dynamic usersId;
-  dynamic sessionId;
-  dynamic productId;
-  dynamic productVariantId;
-  dynamic orderId;
-  dynamic price;
-  dynamic salePrice;
-  dynamic status;
-  dynamic qty;
-  dynamic amount;
-  dynamic discount;
-  dynamic productName;
-  dynamic varName;
-  dynamic slug;
-  dynamic cartMsg;
-  dynamic isPromo;
-  dynamic isStoreStock;
-  dynamic image;
+  String? subtotal;
+  String? total;
+  String? shippingTotal;
+  Contents? contents;
 
-  CartItem({
-    required this.id,
-    required this.usersId,
-    required this.sessionId,
-    required this.productId,
-    required this.productVariantId,
-    required this.orderId,
-    required this.price,
-    required this.salePrice,
-    required this.status,
-    required this.qty,
-    required this.amount,
-    required this.discount,
-    required this.productName,
-    required this.varName,
-    required this.slug,
-    required this.cartMsg,
-    required this.isPromo,
-    required this.isStoreStock,
-    required this.image,
-  });
+  CartItem({this.subtotal, this.total, this.shippingTotal, this.contents});
 
-  factory CartItem.fromJson(Map<String, dynamic> json) {
-    return CartItem(
-      id: json['id'],
-      usersId: json['users_id'],
-      sessionId: json['sessionid'],
-      productId: json['product_id'],
-      productVariantId: json['productvariant_id'],
-      orderId: json['order_id'],
-      price: json['price'],
-      salePrice: json['saleprice'],
-      status: json['status'],
-      qty: json['qty'],
-      amount: json['amount'],
-      discount: json['discount'],
-      productName: json['productname'],
-      varName: json['varname'],
-      slug: json['slug'],
-      cartMsg: json['cartmsg'],
-      isPromo: json['is_promo'],
-      isStoreStock: json['is_storestock'],
-      image: json['image'],
-    );
+  CartItem.fromJson(Map<String, dynamic> json) {
+    subtotal = json['subtotal'];
+    total = json['total'];
+    shippingTotal = json['shippingTotal'];
+    contents = json['contents'] != null
+        ? new Contents.fromJson(json['contents'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'users_id': usersId,
-      'sessionid': sessionId,
-      'product_id': productId,
-      'productvariant_id': productVariantId,
-      'order_id': orderId,
-      'price': price,
-      'saleprice': salePrice,
-      'status': status,
-      'qty': qty,
-      'amount': amount,
-      'discount': discount,
-      'productname': productName,
-      'varname': varName,
-      'slug': slug,
-      'cartmsg': cartMsg,
-      'is_promo': isPromo,
-      'is_storestock': isStoreStock,
-      'image': image,
-    };
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['subtotal'] = this.subtotal;
+    data['total'] = this.total;
+    data['shippingTotal'] = this.shippingTotal;
+    if (this.contents != null) {
+      data['contents'] = this.contents!.toJson();
+    }
+    return data;
+  }
+}
+
+class Contents {
+  List<Product>? product;
+  int? quantity;
+  String? subtotal;
+  String? subtotalTax;
+  String? total;
+  String? tax;
+  Null? variation;
+
+  Contents(
+      {this.product,
+        this.quantity,
+        this.subtotal,
+        this.subtotalTax,
+        this.total,
+        this.tax,
+        this.variation});
+
+  Contents.fromJson(Map<String, dynamic> json) {
+    if (json['product'] != null) {
+      product = <Product>[];
+      json['product'].forEach((v) {
+        product!.add(new Product.fromJson(v));
+      });
+    }
+    quantity = json['quantity'];
+    subtotal = json['subtotal'];
+    subtotalTax = json['subtotalTax'];
+    total = json['total'];
+    tax = json['tax'];
+    variation = json['variation'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.product != null) {
+      data['product'] = this.product!.map((v) => v.toJson()).toList();
+    }
+    data['quantity'] = this.quantity;
+    data['subtotal'] = this.subtotal;
+    data['subtotalTax'] = this.subtotalTax;
+    data['total'] = this.total;
+    data['tax'] = this.tax;
+    data['variation'] = this.variation;
+    return data;
+  }
+}
+
+class Product {
+  String? name;
+  String? sku;
+  int? databaseId;
+  int? productId;
+
+  Product({this.name, this.sku, this.databaseId, this.productId});
+
+  Product.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    sku = json['sku'];
+    databaseId = json['databaseId'];
+    productId = json['productId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['sku'] = this.sku;
+    data['databaseId'] = this.databaseId;
+    data['productId'] = this.productId;
+    return data;
   }
 }

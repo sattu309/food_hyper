@@ -1,15 +1,18 @@
-import "package:flutter/material.dart";
+import "package:badges/badges.dart";
+import "package:flutter/material.dart"hide Badge;
 import "package:get/get.dart";
 import "package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart";
 import "package:shop_app/helper/apptheme_color.dart";
 import "package:shop_app/screens/profile/profile_screen.dart";
 import "../controllers/cart_controller.dart";
 import "../controllers/main_controller.dart";
+import "../controllers/order_controller.dart";
 import "../controllers/session_controller.dart";
 import "../controllers/wishlist_controller.dart";
 import "cart/cart_screen.dart";
 import "favorite/favorite_screen.dart";
-import "home/categories_list.dart";
+import "category/categories_list.dart";
+import "home/components/static_home.dart";
 import "home/home_screen.dart";
 
 
@@ -21,13 +24,14 @@ class MinimalExample extends StatefulWidget {
 }
 
 class _MinimalExampleState extends State<MinimalExample> {
-  final favController = Get.put(WishListController());
+  final checkOutController = Get.put(OrderController());
   final controller = Get.put(MainHomeController());
   final sessionIdController = Get.put(SessionController());
   final cartController = Get.put(CartController());
   List<PersistentTabConfig> tabs() => [
         PersistentTabConfig(
-          screen: const HomeScreen(),
+          // screen: const HomeScreen(),
+          screen: const DemoPage(),
           item: ItemConfig(
             icon: const Icon(Icons.home_filled),
             title: "Home",
@@ -42,22 +46,31 @@ class _MinimalExampleState extends State<MinimalExample> {
             activeForegroundColor: AppThemeColor.buttonColor
           ),
         ),
+
     PersistentTabConfig(
       screen: const CartScreen(),
       item: ItemConfig(
-          icon: const Icon(Icons.shopping_cart_outlined),
+
+          icon:
+          Badge(
+            badgeStyle: BadgeStyle(badgeColor: AppThemeColor.buttonColor),
+            badgeContent:
+                Obx((){
+                  return Text(cartController.cartCount.value,style: TextStyle(color: Colors.white),);}),
+
+              child: Icon(Icons.shopping_cart_outlined)),
           title: "Cart",
           activeForegroundColor: AppThemeColor.buttonColor
       ),
     ),
-        PersistentTabConfig(
-          screen: const FavoriteScreen(),
-          item: ItemConfig(
-            icon: const Icon(Icons.favorite),
-            title: "Wishlist",
-              activeForegroundColor: AppThemeColor.buttonColor
-          ),
-        ),
+        // PersistentTabConfig(
+        //   screen: const FavoriteScreen(),
+        //   item: ItemConfig(
+        //     icon: const Icon(Icons.favorite),
+        //     title: "Wishlist",
+        //       activeForegroundColor: AppThemeColor.buttonColor
+        //   ),
+        // ),
         PersistentTabConfig(
           screen: const ProfileScreen(),
           item: ItemConfig(
@@ -71,7 +84,8 @@ class _MinimalExampleState extends State<MinimalExample> {
   void initState() {
     super.initState();
     sessionIdController.getAccessToken();
-    favController.fetchWishlist();
+    checkOutController.getCheckoutData();
+
   }
   @override
   Widget build(BuildContext context){
@@ -110,19 +124,12 @@ class _MinimalExampleState extends State<MinimalExample> {
               case 1:
                 break;
               case 2:
-              // Call CartController method
                 cartController.getCartDataLocally();
                 break;
               case 3:
-              // Call WishListController method
-                favController.fetchWishlist();
-                break;
-              case 4:
-              // Call ProfileController method
                 break;
             }
           },
-          // controller: controller.currentIndex.value,
           navBarBuilder: (navBarConfig) => Style1BottomNavBar(
             navBarConfig: navBarConfig,
             navBarDecoration: NavBarDecoration(
@@ -136,7 +143,7 @@ class _MinimalExampleState extends State<MinimalExample> {
                 ),
               ],
 
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 8),
             ),
 
           )),

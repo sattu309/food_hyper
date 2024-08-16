@@ -3,10 +3,7 @@ import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/helper/apptheme_color.dart';
 import '../../constants.dart';
-import '../custom_bottombar.dart';
-import '../init_screen.dart';
 import '../login_flow/login_page.dart';
-import '../login_flow/signup_page.dart';
 import '../new_common_tab.dart';
 import 'components/splash_content.dart';
 

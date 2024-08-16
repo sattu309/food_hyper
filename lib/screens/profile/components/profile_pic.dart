@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -22,6 +25,11 @@ class ProfilePic extends StatefulWidget {
 class _ProfilePicState extends State<ProfilePic> {
   final controller = Get.put(ProfileController());
   @override
+  void initState() {
+    super.initState();
+    log("USERIMG ${controller.image.value.toString()}");
+  }
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 115,
@@ -30,9 +38,14 @@ class _ProfilePicState extends State<ProfilePic> {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
+
+          // CachedNetworkImage(imageUrl: controller.image.value.toString(),),
           const CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
+            backgroundImage:
+
+            AssetImage("assets/images/Profile Image.png"),
           ),
+
           Positioned(
             right: -16,
             bottom: 0,
@@ -50,7 +63,8 @@ class _ProfilePicState extends State<ProfilePic> {
                 onPressed: () {
                   showUploadWindow(context);
                 },
-                child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+                child:
+                SvgPicture.asset("assets/icons/Camera Icon.svg"),
               ),
             ),
           )

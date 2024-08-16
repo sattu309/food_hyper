@@ -370,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       onTap: (){
                                         // Get.to(()=> DetailsScreen(productId: latestData['id'],));
                                         pushScreen(context,
-                                            screen:  DetailsScreen(productId: latestData['id'],), withNavBar: true);
+                                            screen:  DetailsScreen(productId: latestData['id'], productStatus: '',), withNavBar: true);
                                       },
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -523,7 +523,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onTap: (){
                                           // Get.to(()=> DetailsScreen(productId: featuredData['id'],));
                                           pushScreen(context,
-                                              screen:  DetailsScreen(productId: featuredData['id'],), withNavBar: true);
+                                              screen:  DetailsScreen(productId: featuredData['id'], productStatus: '',), withNavBar: true);
                                         },
 
                                         child: Column(

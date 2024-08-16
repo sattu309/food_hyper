@@ -110,7 +110,8 @@ class _AddressScreenState extends State<AddressScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
+          child:
+          Column(
             children: [
               addHeight(20),
               CommonTextFieldWidget(

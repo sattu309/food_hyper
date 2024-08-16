@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 import '../../../components/product_card.dart';
 import '../../../models/Product.dart';
@@ -22,7 +23,8 @@ class PopularProducts extends StatelessWidget {
           child: SectionTitle(
             title: "Popular Products",
             press: () {
-              Get.to(()=>const AllProductsScreen());
+              pushScreen(context,
+                  screen: const AllProductsScreen(), withNavBar: true);
             },
           ),
         ),

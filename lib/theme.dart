@@ -17,6 +17,7 @@ class AppTheme {
         bodyLarge: TextStyle(color: kTextColor),
         bodyMedium: TextStyle(color: kTextColor),
         bodySmall: TextStyle(color: kTextColor),
+        headlineMedium: TextStyle(color: kTextColor),
       ),
       inputDecorationTheme: const InputDecorationTheme(
         floatingLabelBehavior: FloatingLabelBehavior.always,

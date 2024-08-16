@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../categories_list.dart';
+import '../../category/categories_list.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});

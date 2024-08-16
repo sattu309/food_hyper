@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/route_manager.dart';
 import 'package:shop_app/helper/apptheme_color.dart';
 import 'package:shop_app/screens/new_common_tab.dart';
 import '../../helper/dimentions.dart';
   class ThankYouScreen extends StatefulWidget {
-  const ThankYouScreen({Key? key,}) : super(key: key);
+    final String orderId;
+    final String orderDate;
+    final String orderSubtotal;
+    final String orderTotal;
+    final String orderType;
+
+  const ThankYouScreen({Key? key, required this.orderId, required this.orderDate, required this.orderSubtotal, required this.orderTotal, required this.orderType,}) : super(key: key);
 
   @override
   State<ThankYouScreen> createState() => _ThankYouScreenState();
@@ -13,12 +18,100 @@ import '../../helper/dimentions.dart';
 
 class _ThankYouScreenState extends State<ThankYouScreen> {
 
+  final fetchMyOrders = """
+ query Orders {
+    orders{
+        edges {
+            node {
+                id
+                status
+                paymentMethod
+                databaseId
+                date
+                orderNumber
+                total
+                subtotal
+                lineItems {
+                    edges {
+                        node {
+                            id
+                            orderId
+                            productId
+                            quantity
+                            subtotal
+                            total
+                            product {
+                                node {
+                                    productId
+                                    name
+                                    featuredImage {
+                                        node {
+                                            sourceUrl
+                                        }
+                                    }
+                                    ... on VariableProduct {
+                                        databaseId
+                                        name
+                                        price
+                                        type
+                                        salePrice
+                                        regularPrice
+                                    }
+                                    ... on SimpleProduct {
+                                        databaseId
+                                        name
+                                        price
+                                        type
+                                        regularPrice
+                                        salePrice
+                                    }
+                                }
+                            }
+                            variation {
+                                node {
+                                    databaseId
+                                    name
+                                    price
+                                    regularPrice
+                                    salePrice
+                                    attributes {
+                                        edges {
+                                            node {
+                                                value
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                billing {
+                    address1
+                    address2
+                    city
+                    company
+                    country
+                    email
+                    firstName
+                    lastName
+                    phone
+                    postcode
+                    state
+                }
+            }
+        }
+    }
+}
+
+""";
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
+      body:
+      SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: AddSize.padding16, vertical: AddSize.padding16),
@@ -32,28 +125,20 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                 Image(
                   height: height * .25,
                   width: width,
-                  image:  AssetImage("assets/images/thankyou.png"),
+                  image:  const AssetImage("assets/images/thankyou.png"),
                   color: AppThemeColor.buttonColor,
                 ),
                 SizedBox(
                   height: height * .04,
                 ),
-                Text(
+                const Text(
                   "Thank You!",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: AddSize.font24,
-                      color: AppThemeColor.buttonColor),
                 ),
                 SizedBox(
                   height: height * .005,
                 ),
-                Text(
-                  "your order has been successful",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      fontWeight: FontWeight.w300,
-                      fontSize: AddSize.font16,
-                      color: AppThemeColor.buttonColor),
+                const Text(
+                  "Your order has been successfully placed",
                 ),
                 SizedBox(
                   height: height * .04,
@@ -66,10 +151,37 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: AddSize.padding20,
+                      vertical: 20
                     ),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("PaymentType:",
+                                    style: TextStyle(
+                                        color: AppThemeColor.buttonColor,
+                                        fontSize: AddSize.font16,
+                                        fontWeight: FontWeight.w500)),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5,vertical:3),
+                                  decoration: BoxDecoration(
+                                    color: AppThemeColor.buttonColor,
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                  child: Text(
+                                    widget.orderType.toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: AddSize.font14,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ]),
+                          SizedBox(
+                            height: height * .01,
+                          ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -79,7 +191,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
                                 Text(
-                                  "#76",
+                                  widget.orderId,
                                   style: TextStyle(
                                       color: Colors.grey.shade500,
                                       fontSize: AddSize.font14,
@@ -98,7 +210,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
                                 Text(
-                                    "19/07/2024",
+                                    widget.orderDate,
                                     style: TextStyle(
                                         color: Colors.grey.shade500,
                                         fontSize: AddSize.font14,
@@ -116,32 +228,13 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
                                 Text(
-                                   "R8943",
+                                   widget.orderSubtotal,
                                     style: TextStyle(
                                         color: Colors.grey.shade500,
                                         fontSize: AddSize.font14,
                                         fontWeight: FontWeight.w500)),
                               ]),
 
-                          SizedBox(
-                            height: height * .01,
-                          ),
-
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Delivery charges:",
-                                    style: TextStyle(
-                                        color: AppThemeColor.buttonColor,
-                                        fontSize: AddSize.font16,
-                                        fontWeight: FontWeight.w500)),
-                                Text(
-                                    "R974",
-                                    style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontSize: AddSize.font14,
-                                        fontWeight: FontWeight.w500)),
-                              ]),
                           SizedBox(
                             height: height * .01,
                           ),
@@ -157,7 +250,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
                                 Text(
-                                    "R9487",
+                                    widget.orderTotal,
                                     style: TextStyle(
                                         color: Colors.grey.shade500,
                                         fontSize: AddSize.font14,
@@ -177,7 +270,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
 
             ElevatedButton(
                 onPressed: () {
-                  Get.offAll(MinimalExample());
+                  Get.offAll(()=>MinimalExample());
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.maxFinite, 60),
@@ -186,13 +279,9 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AddSize.size10)),
                     textStyle: TextStyle(
-                        fontSize: AddSize.font20, fontWeight: FontWeight.w600)),
+                        fontSize: 14, fontWeight: FontWeight.w600)),
                 child: Text(
                   "BACK TO HOME",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: AddSize.font16),
                 )),
           ],
         ),
